@@ -8,10 +8,19 @@ use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 class Kernel extends ConsoleKernel
 {
     /**
+     * Register custom Artisan commands.
+     */
+    protected $commands = [
+        \App\Console\Commands\RecordAttendance::class,
+        \App\Console\Commands\SyncAttendanceFromCache::class,
+    ];
+
+    /**
      * Define the application's command schedule.
      */
     protected function schedule(Schedule $schedule): void
     {
+        $schedule->job(new RecordDailyAttendanceJob)->dailyAt('08:00');
         // $schedule->command('inspire')->hourly();
     }
 

@@ -2,6 +2,11 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\TeacherController;
+use App\Http\Controllers\ClassroomController;
+use App\Http\Controllers\StudentController;
+use App\Jobs\RecordDailyAttendanceJob;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +19,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::get('/test-job', function () {
+    dispatch(new RecordDailyAttendanceJob());
+    return 'Job dispatched!';
 });
+
+Route::apiResource('teacher', TeacherController::class);
+Route::apiResource('classroom', ClassroomController::class);
+Route::apiResource('student', StudentController::class);
+
+Route::get('/attendance/today', [AttendanceController::class, 'get']);
