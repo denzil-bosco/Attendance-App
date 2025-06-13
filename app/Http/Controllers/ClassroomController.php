@@ -59,7 +59,7 @@ class ClassroomController extends Controller
                 'created_at' => $classroom->created_at->format('Y-m-d H:i:s'),
                 'updated_at' => $classroom->updated_at->format('Y-m-d H:i:s'),
             ]
-        ], 201);
+        ], 200);
     }
 
     /**

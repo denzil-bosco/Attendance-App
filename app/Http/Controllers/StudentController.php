@@ -25,11 +25,11 @@ class StudentController extends Controller
         $validated = $request->validate([
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-            'date_of_birth' => 'nullable|date',
+            'date_of_birth' => 'nullable|date|before_or_equal:today',
             'gender' => 'nullable|in:MALE,FEMALE,OTHER',
             'contact_person_name' => 'nullable|string|max:255',
             'contact_person_phone' => 'nullable|string|max:20',
-            'enrollment_date' => 'nullable|date',
+            'enrollment_date' => 'nullable|date|before_or_equal:today',
             'student_id_number' => 'nullable|string|max:255|unique:students,student_id_number',
             'class_id' => 'required|exists:classrooms,id',
         ]);
@@ -75,7 +75,7 @@ class StudentController extends Controller
                 'created_at' => $student->created_at->format('Y-m-d H:i:s'),
                 'updated_at' => $student->updated_at->format('Y-m-d H:i:s'),
             ]
-        ], 201);
+        ], 200);
     }
 
     /**
@@ -86,11 +86,11 @@ class StudentController extends Controller
         $validated = $request->validate([
             'first_name' => 'string|max:255',
             'last_name' => 'string|max:255',
-            'date_of_birth' => 'nullable|date',
+            'date_of_birth' => 'nullable|date|before_or_equal:today',
             'gender' => 'nullable|in:MALE,FEMALE,OTHER',
             'contact_person_name' => 'nullable|string|max:255',
             'contact_person_phone' => 'nullable|string|max:20',
-            'enrollment_date' => 'nullable|date',
+            'enrollment_date' => 'nullable|date|before_or_equal:today',
             'student_id_number' => 'nullable|string|max:255|unique:students,student_id_number,' . $student->id,
             'class_id' => 'required|exists:classrooms,id',
         ]);
@@ -112,7 +112,7 @@ class StudentController extends Controller
                 'created_at' => $student->created_at->format('Y-m-d H:i:s'),
                 'updated_at' => $student->updated_at->format('Y-m-d H:i:s'),
             ]
-        ]);
+        ], 200);
     }
 
     /**
@@ -121,6 +121,6 @@ class StudentController extends Controller
     public function destroy(Student $student)
     {
         $student->delete();
-        return response()->json(['message' => 'Data deleted successfully']);
+        return response()->json(['message' => 'Data deleted successfully'], 204);
     }
 }

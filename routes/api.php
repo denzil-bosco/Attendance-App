@@ -28,4 +28,4 @@ Route::apiResource('teacher', TeacherController::class);
 Route::apiResource('classroom', ClassroomController::class);
 Route::apiResource('student', StudentController::class);
 
-Route::get('/attendance/today', [AttendanceController::class, 'get']);
+Route::post('/mark/attendance', [AttendanceController::class, 'store']);

@@ -8,13 +8,12 @@ use App\Models\Student;
 use Illuminate\Support\Facades\Redis;
 use Carbon\Carbon;
 
-
 class AttendanceController extends Controller
 {
-
 	public function store(Request $request)
 	{
 		try {
+
 			$today = Carbon::today();
 			$student = Student::findOrFail($request->student_id);
 			$teacherId = $request->teacher_id;
@@ -37,7 +36,7 @@ class AttendanceController extends Controller
 			];
 			$attendanceArray[] = $newRecord;
 			Redis::set($key, json_encode($attendanceArray));
-			return response()->json(['message' => 'Attendance cached successfully']);
+			return response()->json(['message' => 'Attendance cached successfully'], 200);
 		} catch (ModelNotFoundException $e) {
 			return response()->json([
 				'error' => 'Record not found'
